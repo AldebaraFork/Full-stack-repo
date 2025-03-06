@@ -39,6 +39,38 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
     String mensagemUsuario = messageSource.getMessage("mensagem.invalida",null, LocaleContextHolder.getLocale());
-    return handleExceptionInternal(ex, mensagemUsuario, headers, HttpStatus.BAD_REQUEST, request);
+    String mensagemDev = ex.getCause().toString();
+    return handleExceptionInternal(ex, new Erro(mensagemUsuario,mensagemDev), headers, HttpStatus.BAD_REQUEST, request);
+  }
+
+
+
+
+
+  public static class Erro{
+
+    public Erro(String mensagemUsuario, String mensagemDev) {
+      this.mensagemUsuario = mensagemUsuario;
+      this.mensagemDev = mensagemDev;
+    }
+
+    public String getMensagemUsuario() {
+      return mensagemUsuario;
+    }
+
+    public void setMensagemUsuario(String mensagemUsuario) {
+      this.mensagemUsuario = mensagemUsuario;
+    }
+
+    public String getMensagemDev() {
+      return mensagemDev;
+    }
+
+    public void setMensagemDev(String mensagemDev) {
+      this.mensagemDev = mensagemDev;
+    }
+
+    private String mensagemUsuario;
+     private String mensagemDev;
   }
 }
