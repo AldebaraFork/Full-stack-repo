@@ -1,6 +1,7 @@
 package com.dex.moneyapi.moneyapi.model;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+    @NotNull
     private String nome;
 
     public Long getCodigo() {return codigo;
