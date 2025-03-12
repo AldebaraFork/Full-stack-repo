@@ -1,7 +1,7 @@
 package com.dex.moneyapi.moneyapi.model;
 
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -12,7 +12,8 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
-    @NotNull
+
+    @NotNull(message = "O nome não pode estar nulo ou vazio")
     private String nome;
 
     public Long getCodigo() {return codigo;

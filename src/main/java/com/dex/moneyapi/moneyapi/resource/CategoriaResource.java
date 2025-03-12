@@ -5,10 +5,9 @@ import com.dex.moneyapi.moneyapi.Exceptions.CategoriaNotFound;
 import com.dex.moneyapi.moneyapi.model.Categoria;
 import com.dex.moneyapi.moneyapi.repository.CategoriaRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,7 +30,7 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criar(@Validated @RequestBody Categoria categoria, HttpServletResponse response){
+    public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response){
           Categoria categoriaSalva = categoriaRepository.save(categoria);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
         response.setHeader("Location", uri.toASCIIString ());
@@ -47,11 +46,6 @@ public class CategoriaResource {
         return ResponseEntity.ok(categoria);
     }
 
-    @ExceptionHandler(CategoriaNotFound.class)
-    public ResponseEntity<String> handleCategoriaNotFound(CategoriaNotFound ex){
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-
-    }
 
 }
