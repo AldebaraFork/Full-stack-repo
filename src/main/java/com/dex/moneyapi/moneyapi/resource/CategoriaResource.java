@@ -15,6 +15,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+//onde se recebe e ocorre a validação
+
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaResource {

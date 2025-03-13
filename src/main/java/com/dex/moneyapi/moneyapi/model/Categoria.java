@@ -10,10 +10,10 @@ import java.util.Objects;
 public class Categoria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //gera valores automaticamente para a primary key
     private Long codigo;
 
-    @NotNull(message = "O nome não pode estar nulo ou vazio")
+    @NotNull(message = "O nome não pode estar nulo!")
     private String nome;
 
     public Long getCodigo() {return codigo;
