@@ -5,15 +5,18 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
-@Entity
-@Table(name = "pessoas")
+@Entity // Adiciona a anotação @Entity para que o JPA reconheça a classe como uma entidade
+@Table(name = "pessoa") //define o nome da tabela no BD
 public class Pessoa {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Gera o ID automaticamente
+
+
+    @Id //Define o campo como chave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //gera o ID automaticamente
+    @Column(name = "codigo") // Mapeia para a coluna "codigo" no banco de dados
     private Long id;
 
-    @NotNull(message = "o nome não pode ser nulo!")
+    @NotNull(message = "o nome não pode ser nulo!") //define que o nome não pode ser null
     private String nome;
 
     @NotNull(message = "o status ativo não pode ser nulo! ")
@@ -23,27 +26,21 @@ public class Pessoa {
     private Endereco endereco;
 
 
-    //equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; // Verifica se é a mesma instância
         if (o == null || getClass() != o.getClass()) return false; // Verifica se é do mesmo tipo
         Pessoa pessoa = (Pessoa) o; // Faz o cast para Pessoa
-        return Objects.equals(nome, pessoa.nome); // Compara apenas o campo "nome"
+        return Objects.equals(id, pessoa.id); // Compara apenas o campo "id"
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nome);// Calcula o hashCode com base no campo "nome"
+        return Objects.hash(id); // Calcula o hashCode com base no campo "id"
     }
 
     //getters & setters
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
     public String getNome() {
         return this.nome;
     }
@@ -61,5 +58,11 @@ public class Pessoa {
     }
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

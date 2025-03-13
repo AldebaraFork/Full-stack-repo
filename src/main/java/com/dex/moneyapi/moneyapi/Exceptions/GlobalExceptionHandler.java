@@ -33,11 +33,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   //retorna um 404 e captura a CategoriaNotFoundException
   @ExceptionHandler(CategoriaNotFound.class)
     public ResponseEntity<Object> handleCategoriaNotFound(CategoriaNotFound ex, WebRequest request) {
+     String mensagemUsuario = ex.getMessage();
+     String mensagemDev = ex.toString();
+     List<Erro> erros = Arrays.asList(new Erro(null, mensagemUsuario, mensagemDev));
+     return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+  }
+
+  //retorna um 404 e captura pessoaNotFoundException
+  @ExceptionHandler(PessoaNotFound.class)
+  public ResponseEntity<Object> handlePessoaNotFound(PessoaNotFound ex, WebRequest request) {
     String mensagemUsuario = ex.getMessage();
     String mensagemDev = ex.toString();
-
     List<Erro> erros = Arrays.asList(new Erro(null, mensagemUsuario, mensagemDev));
-
     return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
   }
 
