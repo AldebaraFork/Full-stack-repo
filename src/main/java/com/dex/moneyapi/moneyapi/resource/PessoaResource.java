@@ -3,13 +3,12 @@ package com.dex.moneyapi.moneyapi.resource;
 
 
 import com.dex.moneyapi.moneyapi.Exceptions.PessoaNotFound;
-import com.dex.moneyapi.moneyapi.Exceptions.ResourceNotFoundException;
 import com.dex.moneyapi.moneyapi.events.RecursoCriadoEvent;
 import com.dex.moneyapi.moneyapi.model.Pessoa;
 import com.dex.moneyapi.moneyapi.repository.PessoaRepository;
+import com.dex.moneyapi.moneyapi.service.pessoaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.Optional;
+
 
 //controlador REST
 
@@ -28,6 +27,9 @@ public class PessoaResource {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private pessoaService service;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -63,11 +65,8 @@ public class PessoaResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa){
-        Pessoa pessoaSalva = pessoaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pessoa não encontrada com o id: " + id));
 
-        BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
-        pessoaRepository.save(pessoaSalva);
+        Pessoa pessoaSalva = service.atualizar(id, pessoa);
         return ResponseEntity.ok(pessoaSalva);
 
     }
