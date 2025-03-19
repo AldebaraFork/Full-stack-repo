@@ -2,12 +2,14 @@ package com.dex.moneyapi.moneyapi.Exceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -62,6 +64,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   //verifica argumentos invalidos e retorna um 400 bad request
   @ExceptionHandler(InvalidArgumentException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Object> handleInvalidArgumentException(InvalidArgumentException ex, WebRequest request) {
     String mensagemUsuario = messageSource.getMessage("mensagem.invalida",null, LocaleContextHolder.getLocale());
     String mensagemDev = ex.getCause().toString();
@@ -79,6 +82,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     List<Erro> erros = criarListaErros(ex.getBindingResult());
     return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
   }
+
+  @ExceptionHandler({EmptyResultDataAccessException.class})
+  public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
+    String mensagemUsuario = messageSource.getMessage("recurso.nao-eno" + "contrado",null, LocaleContextHolder.getLocale());
+    String mensagemDev = ex.toString();
+
+    List<Erro> erros = Arrays.asList(new Erro(null, mensagemUsuario, mensagemDev));
+    return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+  }
+
+
 
 
   // Cria lista de erros
