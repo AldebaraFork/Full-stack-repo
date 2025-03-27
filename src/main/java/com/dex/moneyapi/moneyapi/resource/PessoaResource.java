@@ -56,6 +56,8 @@ public class PessoaResource {
         return ResponseEntity.ok(pessoa);
     }
 
+
+    //remove uma pessoa
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long id) {
@@ -63,12 +65,19 @@ public class PessoaResource {
         pessoaRepository.deleteById(id);
     }
 
+    //atualiza todos os dados que quiser
     @PutMapping("/{id}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa){
-
         Pessoa pessoaSalva = service.atualizar(id, pessoa);
         return ResponseEntity.ok(pessoaSalva);
+    }
 
+    //atualiza o status da pessoa
+
+    @PutMapping("/{id}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizarPropriedadeAtivo(@PathVariable Long id, @RequestBody boolean ativo) {
+        service.atualizarPropriedadeAtivo(id, ativo);
     }
 
 }
