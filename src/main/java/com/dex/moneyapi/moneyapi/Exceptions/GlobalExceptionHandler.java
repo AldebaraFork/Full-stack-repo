@@ -1,4 +1,5 @@
 package com.dex.moneyapi.moneyapi.Exceptions;
+import org.apache.el.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

@@ -20,11 +20,12 @@ public class LancamentoService {
     private LancamentoRepository lancamentoRepository;
 
     public Lancamento salvar(Lancamento lancamento) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getCodigo());
-        if (pessoa.isEmpty() || pessoa.get().isInativo()) {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getId());
+        if (pessoa.isEmpty() || pessoa.get().isAtivo()) {
             throw new PessoaInexistenteOuInativaException();
         }
 
         return lancamentoRepository.save(lancamento);
     }
+
 }

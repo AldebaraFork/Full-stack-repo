@@ -1,7 +1,6 @@
 package com.dex.moneyapi.moneyapi.service;
 
 public class PessoaInexistenteOuInativaException extends RuntimeException {
-    public PessoaInexistenteOuInativaException() {
-        super();
-    }
+    private static final long serialVersionUID = 1L;
+
 }
